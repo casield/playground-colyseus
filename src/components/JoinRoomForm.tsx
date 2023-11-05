@@ -78,7 +78,6 @@ export function JoinRoomForm ({
 
 		} catch (e: any) {
 			const error = e.target?.statusText || e.message || "server is down.";
-			console.log(e);
 			setError(error);
 		} finally {
 			setLoading(false);
