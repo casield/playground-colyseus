@@ -1,11 +1,15 @@
 import { Client, Room, RoomAvailable } from "colyseus.js";
-import { useEffect, useState } from "react";
-import { global, client, endpoint, roomsBySessionId, messageTypesByRoom, Connection, matchmakeMethods, getRoomColorClass } from "../utils/Types";
+import { useState } from "react";
+import { global, client, roomsBySessionId, messageTypesByRoom, Connection, matchmakeMethods } from "../utils/Types";
 import { DEVMODE_RESTART, RAW_EVENTS_KEY, onRoomConnected } from "../utils/ColyseusSDKExt";
 import { LimitedArray } from "../utils/LimitedArray";
 import { JSONEditor } from "../elements/JSONEditor";
 import * as JSONEditorModule from "jsoneditor";
 import { RoomWithId } from "../elements/RoomWithId";
+import { useAtom } from "jotai";
+import { atomWithStorage } from "jotai/utils";
+
+const optionsTextAtom = atomWithStorage<string>('joinOptions',"{}");
 
 export function JoinRoomForm ({
 	roomNames,
@@ -23,7 +27,7 @@ export function JoinRoomForm ({
 	const [selectedRoomName, setRoomName] = useState(roomNames[0]);
 	const [selectedRoomId, setRoomId] = useState(""); // only for joinById
 	const [selectedMethod, setMethod] = useState(Object.keys(matchmakeMethods)[0] as keyof Client);
-	const [optionsText, setOptionsJSON] = useState("{}");
+	const [optionsText, setOptionsJSON] = useAtom(optionsTextAtom);
 	const [isLoading, setLoading] = useState(false);
 	const [error, setError] = useState("");
 	const [isButtonEnabled, setButtonEnabled] = useState(true);
@@ -74,6 +78,7 @@ export function JoinRoomForm ({
 
 		} catch (e: any) {
 			const error = e.target?.statusText || e.message || "server is down.";
+			console.log(e);
 			setError(error);
 		} finally {
 			setLoading(false);

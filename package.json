@@ -2,7 +2,8 @@
   "name": "@colyseus/playground",
   "version": "0.15.4",
   "dependencies": {
-    "@colyseus/core": "^0.15.0"
+    "@colyseus/core": "^0.15.0",
+    "jotai": "^2.5.1"
   },
   "peerDependencies": {
     "express": ">=4.16.0"
@@ -17,7 +18,12 @@
     "eject": "react-scripts eject",
     "prepublishOnly": "npm run build && node build.mjs"
   },
-  "files": ["build", "README.md", "LICENSE", "screenshot.png"],
+  "files": [
+    "build",
+    "README.md",
+    "LICENSE",
+    "screenshot.png"
+  ],
   "eslintConfig": {
     "extends": [
       "react-app",
